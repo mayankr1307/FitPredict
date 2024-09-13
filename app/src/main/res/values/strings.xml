@@ -5,4 +5,10 @@
     <string name="quote">Track nutrition, macros, and progress easily for your fitness goals.</string>
     <string name="sign_up">SIGN UP</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="sign_up_tool_bar">Sign Up</string>
+    <string name="back_button">Back Button</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

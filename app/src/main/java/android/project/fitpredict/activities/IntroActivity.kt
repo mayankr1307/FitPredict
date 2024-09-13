@@ -1,5 +1,6 @@
 package android.project.fitpredict.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.project.fitpredict.R
@@ -15,7 +16,7 @@ class IntroActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
         binding?.flSignUp?.setOnClickListener {
-
+            startActivity(Intent(this@IntroActivity, SignUpActivity::class.java))
         }
 
         binding?.flSignIn?.setOnClickListener {

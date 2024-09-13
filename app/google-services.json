@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "353227938258",
+    "project_id": "fitpredict-cff05",
+    "storage_bucket": "fitpredict-cff05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353227938258:android:37eb5a95df7cc1e025900b",
+        "android_client_info": {
+          "package_name": "android.project.fitpredict"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw2cTdsjAJFekPhP5fZChDSTO7sAVQnD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
