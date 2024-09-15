@@ -21,14 +21,15 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
         setContentView(binding?.root)
 
         binding?.btnSignUp?.setOnClickListener(this@SignUpActivity)
+        binding?.ivBack?.setOnClickListener(this@SignUpActivity)
     }
 
     private fun validateForm(): Boolean {
         var isValid = true
 
         if(binding?.etName?.text?.isEmpty() == true)    isValid = false
-        else if(binding?.etName?.text?.isEmpty() == true)    isValid = false
-        else if(binding?.etName?.text?.isEmpty() == true)    isValid = false
+        else if(binding?.etEmail?.text?.isEmpty() == true)    isValid = false
+        else if(binding?.etPassword?.text?.isEmpty() == true)    isValid = false
 
         if(!isValid) {
             Toast.makeText(
@@ -48,7 +49,7 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
             "Sign up complete.",
             Toast.LENGTH_SHORT
         ).show()
-        startActivity(Intent(this@SignUpActivity, IntroActivity::class.java))
+        startActivity(Intent(this@SignUpActivity, InfoActivity::class.java))
         finish()
     }
 
@@ -68,13 +69,14 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id) {
             R.id.btn_sign_up -> {
-                if(validateForm() == true) {
+                if(validateForm()) {
                     val email = binding?.etEmail?.text.toString()
                     val password = binding?.etPassword?.text.toString()
                     displayProgressBar(this@SignUpActivity)
                     FirebaseAuth().signUpUser(this@SignUpActivity, email, password)
                 }
             }
+            R.id.iv_back -> onBackPressed()
         }
     }
 }

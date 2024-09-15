@@ -45,13 +45,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Gender Radio Group -->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Gender"
+                android:text="@string/gender"
                 android:textSize="20sp"
                 android:layout_margin="10dp"
                 />
@@ -68,7 +67,7 @@
                     android:id="@+id/rb_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male"
+                    android:text="@string/male"
                     android:layout_weight="1"
                     />
 

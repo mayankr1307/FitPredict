@@ -20,7 +20,7 @@ class IntroActivity : AppCompatActivity() {
         }
 
         binding?.flSignIn?.setOnClickListener {
-
+            startActivity(Intent(this@IntroActivity, SignInActivity::class.java))
         }
     }
 

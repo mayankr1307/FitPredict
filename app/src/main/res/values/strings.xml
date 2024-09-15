@@ -12,4 +12,7 @@
     <string name="password">Password</string>
     <string name="please_wait">Please wait...</string>
     <string name="personal_info">Personal Info</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="sign_in_toolbar">Sign In</string>
 </resources>
