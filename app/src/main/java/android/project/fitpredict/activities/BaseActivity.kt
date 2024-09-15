@@ -8,21 +8,28 @@ import android.project.fitpredict.R
 
 open class BaseActivity : AppCompatActivity() {
 
-    var progress_dialog: Dialog? = null
+    private var progress_dialog: Dialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
     }
 
     fun displayProgressBar(context: Context) {
-        progress_dialog = Dialog(context)
-        progress_dialog!!.setContentView(R.layout.progress_bar)
-        progress_dialog!!.setCancelable(false)
-        progress_dialog!!.show()
+        if (progress_dialog == null) {
+            progress_dialog = Dialog(context)
+            progress_dialog?.setContentView(R.layout.progress_bar)
+            progress_dialog?.setCancelable(false)
+            progress_dialog?.show()
+        }
     }
 
-    fun hideProgressBar(context: Context) {
-        progress_dialog!!.dismiss()
-        progress_dialog = null
+    fun hideProgressBar() {
+        progress_dialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+                progress_dialog = null
+            }
+        }
     }
 }

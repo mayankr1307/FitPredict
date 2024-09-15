@@ -1,11 +1,15 @@
 package android.project.fitpredict.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.project.fitpredict.R
+import android.project.fitpredict.authentication.FirebaseAuth
 import android.project.fitpredict.databinding.ActivitySignUpBinding
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
+import com.google.firestore.v1.StructuredAggregationQuery.Aggregation.Count
 
 class SignUpActivity :  BaseActivity(), OnClickListener {
 
@@ -37,6 +41,25 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
         return isValid
     }
 
+    fun signUpSuccess() {
+        hideProgressBar()
+        Toast.makeText(
+            applicationContext,
+            "Sign up complete.",
+            Toast.LENGTH_SHORT
+        ).show()
+        startActivity(Intent(this@SignUpActivity, IntroActivity::class.java))
+        finish()
+    }
+
+    fun signUpFailure() {
+        hideProgressBar()
+        Toast.makeText(
+            applicationContext,
+            "Sign up failure.",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
     override fun onDestroy() {
         binding = null
         super.onDestroy()
@@ -45,7 +68,12 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id) {
             R.id.btn_sign_up -> {
-
+                if(validateForm() == true) {
+                    val email = binding?.etEmail?.text.toString()
+                    val password = binding?.etPassword?.text.toString()
+                    displayProgressBar(this@SignUpActivity)
+                    FirebaseAuth().signUpUser(this@SignUpActivity, email, password)
+                }
             }
         }
     }
