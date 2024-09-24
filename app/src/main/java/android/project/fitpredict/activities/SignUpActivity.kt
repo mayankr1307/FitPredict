@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.project.fitpredict.R
 import android.project.fitpredict.authentication.FirebaseAuth
+import android.project.fitpredict.constants.Constants
 import android.project.fitpredict.databinding.ActivitySignUpBinding
 import android.view.View
 import android.view.View.OnClickListener
@@ -14,6 +15,9 @@ import com.google.firestore.v1.StructuredAggregationQuery.Aggregation.Count
 class SignUpActivity :  BaseActivity(), OnClickListener {
 
     private var binding: ActivitySignUpBinding? = null
+    private var mName = ""
+    private var mEmail = ""
+    private var mPassword = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,8 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
             "Sign up complete.",
             Toast.LENGTH_SHORT
         ).show()
-        startActivity(Intent(this@SignUpActivity, InfoActivity::class.java))
+        val intent = Intent(this@SignUpActivity, InfoActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
@@ -70,10 +75,12 @@ class SignUpActivity :  BaseActivity(), OnClickListener {
         when(view?.id) {
             R.id.btn_sign_up -> {
                 if(validateForm()) {
-                    val email = binding?.etEmail?.text.toString()
-                    val password = binding?.etPassword?.text.toString()
+                    mName = binding?.etName?.text.toString()
+                    mEmail = binding?.etEmail?.text.toString()
+                    mPassword = binding?.etPassword?.text.toString()
+
                     displayProgressBar(this@SignUpActivity)
-                    FirebaseAuth().signUpUser(this@SignUpActivity, email, password)
+                    FirebaseAuth().signUpUser(this@SignUpActivity, mName, mEmail, mPassword)
                 }
             }
             R.id.iv_back -> onBackPressed()

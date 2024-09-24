@@ -10,10 +10,11 @@ open class Firestore {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun storeUserInfo(context: Context, user: User) {
-        val userId = user.email
+        val userId = user.uid
         val userRef = db.collection("users").document(userId)
 
         val userMap = mapOf(
+            "uid" to user.uid,
             "name" to user.name,
             "email" to user.email,
             "gender" to user.gender,

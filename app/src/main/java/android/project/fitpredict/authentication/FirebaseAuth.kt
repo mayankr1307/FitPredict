@@ -8,30 +8,48 @@ import android.project.fitpredict.activities.SignUpActivity
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.Firebase
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
 
 open class FirebaseAuth {
     private val auth = Firebase.auth
 
-    fun signUpUser(context: Context, email: String, password: String) {
+    fun signUpUser(context: Context, name: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
-                    if(context is SignUpActivity)   context.signUpSuccess()
+
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(name)  // Set the user's name here
+                        .build()
+
+                    user?.updateProfile(profileUpdates)?.addOnCompleteListener { updateTask ->
+                        if (updateTask.isSuccessful) {
+                            Log.d(TAG, "User profile updated with display name: $name")
+                            if (context is SignUpActivity) context.signUpSuccess()
+                        } else {
+                            Log.w(TAG, "User profile update failed.", updateTask.exception)
+                            Toast.makeText(
+                                context,
+                                "Profile update failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         context,
                         "Authentication failed.",
-                        Toast.LENGTH_SHORT,
+                        Toast.LENGTH_SHORT
                     ).show()
-                    if(context is SignUpActivity)   context.signUpFailure()
+                    if (context is SignUpActivity) context.signUpFailure()
                 }
             }
-
     }
+
 
     fun signInUser(context: Context, email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
@@ -58,7 +76,11 @@ open class FirebaseAuth {
             }
     }
 
-    fun currentUserName(): String {
+    fun currentUID(): String {
+        return auth.currentUser?.uid.toString()
+    }
+
+    fun currentUserDisplayName(): String {
         return auth.currentUser?.displayName.toString()
     }
 

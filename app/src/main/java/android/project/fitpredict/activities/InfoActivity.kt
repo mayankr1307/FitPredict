@@ -1,18 +1,23 @@
 package android.project.fitpredict.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.project.fitpredict.R
 import android.project.fitpredict.authentication.FirebaseAuth
+import android.project.fitpredict.constants.Constants
 import android.project.fitpredict.databinding.ActivityInfoBinding
 import android.project.fitpredict.databinding.ActivitySignUpBinding
 import android.project.fitpredict.firestore.Firestore
 import android.project.fitpredict.models.User
+import android.util.Log
 import android.widget.Toast
+import com.google.firebase.Firebase
 
 class InfoActivity : BaseActivity() {
 
     private var binding: ActivityInfoBinding? = null
+    private var mUID = ""
     private var mName = ""
     private var mEmail = ""
     private var mGender = ""
@@ -25,19 +30,27 @@ class InfoActivity : BaseActivity() {
         setContentView(binding?.root)
 
         binding?.btnSubmit?.setOnClickListener {
-            if(validateForm()) {
-                setValues()
-                val user = User(
-                    mName,
-                    mEmail,
-                    mGender,
-                    mWeight,
-                    mHeight,
-                    mAge
-                )
-                displayProgressBar(this@InfoActivity)
-                Firestore().storeUserInfo(this@InfoActivity, user)
-            }
+            submit()
+        }
+    }
+
+    private fun submit() {
+        if (validateForm()) {
+            setValues()
+            val user = User(
+                mUID,
+                mName,
+                mEmail,
+                mGender,
+                mWeight,
+                mHeight,
+                mAge
+            )
+
+            Log.d("UserInfo", "User Information: UID: $mUID, Name: $mName, Email: $mEmail, Gender: $mGender, Weight: $mWeight, Height: $mHeight, Age: $mAge")
+
+            displayProgressBar(this@InfoActivity)
+            Firestore().storeUserInfo(this@InfoActivity, user)
         }
     }
 
@@ -83,12 +96,14 @@ class InfoActivity : BaseActivity() {
         mHeight = binding?.etHeight?.text.toString().toDoubleOrNull() ?: 0.0
         mAge = binding?.etAge?.text.toString().toIntOrNull() ?: 0
 
-        mName = FirebaseAuth().currentUserName()
+        mUID = FirebaseAuth().currentUID()
+
+        mName = FirebaseAuth().currentUserDisplayName()
         mEmail = FirebaseAuth().currentUserEmail()
 
-        if(binding?.rbMale?.isActivated == true)    mGender = "Male"
-        else if(binding?.rbFemale?.isActivated == true) mGender = "Female"
-        else    mGender = "Other"
+        if(binding?.rbMale?.isChecked == true)    mGender = "Male"
+        else if(binding?.rbFemale?.isChecked == true) mGender = "Female"
+        else if(binding?.rbOther?.isChecked == true)    mGender = "Other"
     }
 
     override fun onDestroy() {
