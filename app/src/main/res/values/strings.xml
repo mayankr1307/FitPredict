@@ -15,4 +15,7 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="sign_in_toolbar">Sign In</string>
+    <string name="user_image">user image</string>
+    <string name="food_log">Food log</string>
+    <string name="menu_icon">menu icon</string>
 </resources>

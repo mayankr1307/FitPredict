@@ -1,5 +1,6 @@
 package android.project.fitpredict.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.project.fitpredict.R
@@ -55,6 +56,8 @@ class SignInActivity : BaseActivity() {
             "Sign in success.",
             Toast.LENGTH_SHORT
         ).show()
+        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+        finish()
     }
 
     fun signInFailure() {

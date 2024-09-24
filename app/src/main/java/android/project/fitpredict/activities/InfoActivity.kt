@@ -32,6 +32,23 @@ class InfoActivity : BaseActivity() {
         binding?.btnSubmit?.setOnClickListener {
             submit()
         }
+        binding?.ivBack?.setOnClickListener {
+            setValues()
+            val user = User(
+                mUID,
+                mName,
+                mEmail,
+                mGender,
+                mWeight,
+                mHeight,
+                mAge
+            )
+
+            Log.d("UserInfo", "User Information: UID: $mUID, Name: $mName, Email: $mEmail, Gender: $mGender, Weight: $mWeight, Height: $mHeight, Age: $mAge")
+
+            displayProgressBar(this@InfoActivity)
+            Firestore().storeUserInfo(this@InfoActivity, user)
+        }
     }
 
     private fun submit() {
@@ -61,7 +78,8 @@ class InfoActivity : BaseActivity() {
             "Data stored successfully.",
             Toast.LENGTH_SHORT
         ).show()
-
+        startActivity(Intent(this@InfoActivity, MainActivity::class.java))
+        finish()
     }
 
     fun dataStorageFailure() {

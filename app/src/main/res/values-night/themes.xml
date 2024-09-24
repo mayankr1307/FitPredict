@@ -3,4 +3,6 @@
     <style name="Base.Theme.FitPredict" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/variant3</item>
     </style>
+
+    <style name="Theme.FitPredict" parent="Base.Theme.FitPredict" />
 </resources>
