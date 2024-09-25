@@ -18,4 +18,7 @@
     <string name="user_image">user image</string>
     <string name="food_log">Food log</string>
     <string name="menu_icon">menu icon</string>
+    <string name="profile">Profile</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="user_name">User Name</string>
 </resources>
