@@ -4,9 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.project.fitpredict.R
+import android.project.fitpredict.authentication.FirebaseAuth
 import android.project.fitpredict.databinding.ActivityIntroBinding
 
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : BaseActivity() {
 
     private var binding: ActivityIntroBinding? = null
 
@@ -14,6 +15,8 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIntroBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        FirebaseAuth().autoSignIn(this@IntroActivity)
 
         binding?.flSignUp?.setOnClickListener {
             startActivity(Intent(this@IntroActivity, SignUpActivity::class.java))
@@ -27,5 +30,10 @@ class IntroActivity : AppCompatActivity() {
     override fun onDestroy() {
         binding = null
         super.onDestroy()
+    }
+
+    fun signInSuccess() {
+        hideProgressBar()
+        startActivity(Intent(this@IntroActivity, MainActivity::class.java))
     }
 }

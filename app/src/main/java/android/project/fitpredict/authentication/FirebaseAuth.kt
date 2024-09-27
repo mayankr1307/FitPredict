@@ -3,6 +3,8 @@ package android.project.fitpredict.authentication
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.project.fitpredict.activities.IntroActivity
+import android.project.fitpredict.activities.MainActivity
 import android.project.fitpredict.activities.SignInActivity
 import android.project.fitpredict.activities.SignUpActivity
 import android.util.Log
@@ -74,6 +76,23 @@ open class FirebaseAuth {
                     }
                 }
             }
+    }
+
+    fun autoSignIn(context: Context) {
+        val currentUser = auth.currentUser
+        if(currentUser != null) {
+            if(context is IntroActivity) {
+                context.displayProgressBar(context)
+                context.signInSuccess()
+            }
+        }
+    }
+
+    fun signOutUser(context: Context) {
+        auth.signOut()
+        if(context is MainActivity) {
+            context.signOutSuccess()
+        }
     }
 
     fun currentUID(): String {

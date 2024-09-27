@@ -2,8 +2,10 @@ package android.project.fitpredict.firestore
 
 import android.content.Context
 import android.project.fitpredict.activities.InfoActivity
+import android.project.fitpredict.activities.MainActivity
 import android.project.fitpredict.models.User
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 
 open class Firestore {
@@ -34,6 +36,27 @@ open class Firestore {
                 if(context is InfoActivity) {
                     context.dataStorageFailure()
                 }
+            }
+    }
+
+    fun currentUserInfo(context: Context, uid: String) {
+        val userRef = db.collection("users").document(uid)
+
+        userRef.get()
+            .addOnSuccessListener { document ->
+                if(document.exists()) {
+                    if(context is MainActivity) {
+                        val user = document.toObject(User::class.java)
+                        context.mUser = user
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    context,
+                    "Failed to fetch user info.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 }
