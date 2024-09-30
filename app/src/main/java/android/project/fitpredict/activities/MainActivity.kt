@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 
@@ -41,16 +42,6 @@ class MainActivity : BaseActivity() {
 
     private fun setupUserDetails() {
         Firestore().currentUserInfo(this@MainActivity, FirebaseAuth().currentUID())
-
-        if(mUser != null) {
-            binding?.dlMain?.tbMain?.tvUsername?.text = mUser!!.name
-        }
-
-        Toast.makeText(
-            this@MainActivity,
-            mUser?.name.toString(),
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     private fun onClickMenu(menuItem: MenuItem): Boolean {
@@ -64,7 +55,6 @@ class MainActivity : BaseActivity() {
                 FirebaseAuth().signOutUser(this)
             }
         }
-        // Close the drawer after an item is clicked
         binding?.dlMain?.dlDrawer?.closeDrawer(GravityCompat.START)
         return true
     }
@@ -93,5 +83,9 @@ class MainActivity : BaseActivity() {
         ).show()
         startActivity(Intent(this@MainActivity, IntroActivity::class.java))
         finish()
+    }
+
+    fun userInfoRetrievedSuccessfully() {
+        binding?.dlMain?.navView?.getHeaderView(0)?.findViewById<TextView>(R.id.tv_username)!!.text = mUser!!.name
     }
 }

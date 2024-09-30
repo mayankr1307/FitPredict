@@ -1,5 +1,6 @@
 package android.project.fitpredict.firestore
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.project.fitpredict.activities.InfoActivity
 import android.project.fitpredict.activities.MainActivity
@@ -41,22 +42,23 @@ open class Firestore {
 
     fun currentUserInfo(context: Context, uid: String) {
         val userRef = db.collection("users").document(uid)
-
         userRef.get()
             .addOnSuccessListener { document ->
-                if(document.exists()) {
+                if (document != null && document.exists()) {
+                    val user = document.toObject(User::class.java)
+
                     if(context is MainActivity) {
-                        val user = document.toObject(User::class.java)
                         context.mUser = user
+                        Log.d(TAG, "User Info: ${context.mUser}")
+                        context.userInfoRetrievedSuccessfully()
                     }
+                } else {
+                    Log.d(TAG, "No such document")
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    context,
-                    "Failed to fetch user info.",
-                    Toast.LENGTH_SHORT
-                ).show()
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Failed to get document", exception)
             }
     }
+
 }

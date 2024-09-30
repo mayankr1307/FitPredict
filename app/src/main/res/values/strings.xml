@@ -21,4 +21,10 @@
     <string name="profile">Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="user_name">User Name</string>
+    <string name="food_name">Food Name</string>
+    <string name="random_time_stamp">12:00:00</string>
+    <string name="random_calories">Calories: 1200</string>
+    <string name="random_protein">Protein: 20g</string>
+    <string name="random_fat">Fats: 10g</string>
+    <string name="random_carb">Carbs: 30g</string>
 </resources>
