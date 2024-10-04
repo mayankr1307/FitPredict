@@ -11,15 +11,19 @@ import android.project.fitpredict.firestore.Firestore
 import android.project.fitpredict.models.User
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.core.view.isEmpty
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : BaseActivity() {
 
     private var binding: ActivityMainBinding? = null
+    private lateinit var mFoodRecyclerView: RecyclerView
     var mUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +33,8 @@ class MainActivity : BaseActivity() {
 
         window.statusBarColor = resources.getColor(R.color.variant2, null)
 
+        mFoodRecyclerView = binding?.dlMain?.mainContent?.rvFoodLog!!
+
         binding?.dlMain?.tbMain?.ivUser?.setOnClickListener {
             binding?.dlMain?.dlDrawer?.openDrawer(GravityCompat.START)
         }
@@ -37,7 +43,21 @@ class MainActivity : BaseActivity() {
             onClickMenu(menuItem)
         }
 
+        binding?.dlMain?.mainContent?.fbAdd?.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+        }
+
+        checkRVEmpty()
+
         setupUserDetails()
+    }
+
+    private fun checkRVEmpty() {
+        if (mFoodRecyclerView.isEmpty()) {
+            binding?.dlMain?.mainContent?.tvEmpty?.visibility = View.VISIBLE
+        }else {
+            binding?.dlMain?.mainContent?.tvEmpty?.visibility = View.GONE
+        }
     }
 
     private fun setupUserDetails() {

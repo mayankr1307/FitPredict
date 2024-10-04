@@ -34,10 +34,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_user"
-            app:layout_constraintEnd_toStartOf="@id/iv_menu"/>
+            app:layout_constraintEnd_toStartOf="@id/iv_add"/>
 
         <ImageView
-            android:id="@+id/iv_menu"
+            android:id="@+id/iv_add"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@color/variant2"
