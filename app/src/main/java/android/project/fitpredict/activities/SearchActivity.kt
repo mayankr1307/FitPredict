@@ -1,6 +1,8 @@
 package android.project.fitpredict.activities
 
+import android.accessibilityservice.InputMethod
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import android.project.fitpredict.R
 import android.project.fitpredict.adapters.SearchFoodAdapter
@@ -8,6 +10,8 @@ import android.project.fitpredict.databinding.ActivitySearchBinding
 import android.project.fitpredict.models.FoodItem
 import android.project.fitpredict.nutritionix.RetrofitInstance
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,27 +36,33 @@ class SearchActivity : AppCompatActivity() {
         val adapter = SearchFoodAdapter(this@SearchActivity, foodList)
         binding?.rvSearchResult?.adapter = adapter
 
-
-        binding?.svMain?.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener,
-            SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (!query.isNullOrEmpty()) {
-                    searchFood(query)
-                }
-                return false
+        binding?.ivSearch?.setOnClickListener {
+            if(binding?.etSearch?.text?.isEmpty() == true) {
+                Toast.makeText(
+                    this@SearchActivity,
+                    "Field cannot be left empty.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+
+            val query = binding?.etSearch?.text.toString()
+
+            searchFood(query)
+        }
+
+        binding?.ivBack?.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun searchFood(query: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Make API call
                 val response = RetrofitInstance.api.searchFood(android.project.fitpredict.nutritionix.FoodQuery(query))
 
                 if (response.isSuccessful && response.body() != null) {
