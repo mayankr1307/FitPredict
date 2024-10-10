@@ -3,9 +3,11 @@ package android.project.fitpredict.activities
 import android.accessibilityservice.InputMethod
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.project.fitpredict.R
 import android.project.fitpredict.adapters.SearchFoodAdapter
+import android.project.fitpredict.constants.Constants
 import android.project.fitpredict.databinding.ActivitySearchBinding
 import android.project.fitpredict.models.FoodItem
 import android.project.fitpredict.nutritionix.RetrofitInstance
@@ -74,7 +76,6 @@ class SearchActivity : AppCompatActivity() {
                         foodList.clear()
                         foodList.addAll(foods)
                         binding?.rvSearchResult?.adapter?.notifyDataSetChanged()
-                        logFood(foods)
                     }
                 } else {
                     Log.e("SearchActivity", "API Error: ${response.code()}")
@@ -86,10 +87,11 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-    private fun logFood(foods: List<FoodItem>) {
-        foods.forEach {
-            Log.d("Food", "Logged Food: ${it.food_name} - Calories: ${it.nf_calories}")
-        }
+    fun logFood(food: FoodItem) {
+        Log.d("Food", "Logged Food: ${food.food_name} - Calories: ${food.nf_calories}")
+        val intent = Intent(this@SearchActivity, LogActivity::class.java)
+        intent.putExtra(Constants.FOOD, food)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

@@ -47,6 +47,14 @@
             android:text="@string/random"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/btn_add_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/variant8"
+            android:text="@string/add"
+            />
+
 
     </LinearLayout>
 

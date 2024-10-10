@@ -1,6 +1,7 @@
 package android.project.fitpredict.adapters
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.project.fitpredict.R
+import android.project.fitpredict.activities.SearchActivity
 import android.project.fitpredict.models.FoodItem
+import android.widget.Button
 import com.bumptech.glide.Glide
 
-class SearchFoodAdapter(context: Context, private val foodList: List<FoodItem>) : RecyclerView.Adapter<SearchFoodAdapter.FoodViewHolder>() {
+class SearchFoodAdapter(private val context: Context, private val foodList: List<FoodItem>) : RecyclerView.Adapter<SearchFoodAdapter.FoodViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_food_search, parent, false)
@@ -22,6 +25,12 @@ class SearchFoodAdapter(context: Context, private val foodList: List<FoodItem>) 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val food = foodList[position]
         holder.bind(food)
+
+        holder.itemView.findViewById<Button>(R.id.btn_add_food).setOnClickListener {
+            if(context is SearchActivity) {
+                context.logFood(food)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
