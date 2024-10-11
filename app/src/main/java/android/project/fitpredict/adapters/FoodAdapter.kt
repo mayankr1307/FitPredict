@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.project.fitpredict.R
 import android.project.fitpredict.models.Food
 
-class FoodItemAdapter(context: Context, private val foodList: List<Food>) : RecyclerView.Adapter<FoodItemAdapter.FoodViewHolder>() {
+class FoodAdapter(context: Context, private val foodList: List<Food>) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val foodName: TextView = itemView.findViewById(R.id.tv_food_name)
         val timeStamp: TextView = itemView.findViewById(R.id.tv_time_stamp)

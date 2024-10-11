@@ -1,5 +1,6 @@
 package android.project.fitpredict.activities
 
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
@@ -7,12 +8,13 @@ import android.os.Bundle
 import android.project.fitpredict.R
 import android.project.fitpredict.constants.Constants
 import android.project.fitpredict.databinding.ActivityLogBinding
+import android.project.fitpredict.firestore.Firestore
 import android.project.fitpredict.models.FoodItem
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 
-class LogActivity : AppCompatActivity() {
+class LogActivity : BaseActivity() {
 
     private var binding: ActivityLogBinding? = null
     private lateinit var mFoodItem: FoodItem
@@ -46,6 +48,11 @@ class LogActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding?.btnAddFood?.setOnClickListener {
+            displayProgressBar(this@LogActivity)
+            Firestore().storeFood(this@LogActivity, convertFoodItemToFood(mFoodItem))
+        }
     }
 
     private fun setupActivity() {
@@ -91,5 +98,17 @@ class LogActivity : AppCompatActivity() {
     override fun onDestroy() {
         binding = null
         super.onDestroy()
+    }
+
+    fun storeFoodSuccess() {
+        hideProgressBar()
+        startActivity(Intent(this@LogActivity, MainActivity::class.java))
+        finish()
+    }
+
+    fun storeFoodFailure() {
+        hideProgressBar()
+        startActivity(Intent(this@LogActivity, MainActivity::class.java))
+        finish()
     }
 }

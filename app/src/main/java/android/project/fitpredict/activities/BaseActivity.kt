@@ -5,6 +5,12 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.project.fitpredict.R
+import android.project.fitpredict.authentication.FirebaseAuth
+import android.project.fitpredict.models.Food
+import android.project.fitpredict.models.FoodItem
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -32,4 +38,20 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun convertFoodItemToFood(foodItem: FoodItem): Food {
+        return Food(
+            foodName = foodItem.food_name,
+            quantity = foodItem.serving_qty,
+            unit = foodItem.serving_unit,
+            calories = foodItem.nf_calories,
+            protein = foodItem.nf_protein,
+            carbs = foodItem.nf_total_carbohydrate,
+            fats = foodItem.nf_total_fat,
+            loggedBy = FirebaseAuth().currentUID(),
+            loggedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()), // Current date
+            loggedTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()) // Current time
+        )
+    }
+
 }
