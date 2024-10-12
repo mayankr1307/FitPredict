@@ -75,13 +75,14 @@ class LogActivity : BaseActivity() {
         }
 
         foodName.text = mFoodItem.food_name
-        foodCalories.text = mFoodItem.nf_calories.toString()
+        foodCalories.text = "%.2f".format(mFoodItem.nf_calories)  // Format calories to 2 decimal places
         foodServingQty.text = mFoodItem.serving_qty.toString()
         foodServingUnit.text = mFoodItem.serving_unit
 
         binding?.etUnit?.setText(mFoodItem.serving_qty.toString())
         binding?.tvUnit?.text = mFoodItem.serving_unit
     }
+
 
     private fun updateInformation(newServingQty: Float) {
         val originalServingQty = mFoodItem.serving_qty
@@ -91,9 +92,11 @@ class LogActivity : BaseActivity() {
         mFoodItem.serving_qty = newServingQty.toDouble()
         mFoodItem.nf_calories = updatedCalories
 
-        binding?.tvFoodCalories?.text = updatedCalories.toString()
+        // Format calories to 2 decimal places
+        binding?.tvFoodCalories?.text = "%.2f".format(updatedCalories)
         binding?.tvFoodServingQty?.text = newServingQty.toString()
     }
+
 
     override fun onDestroy() {
         binding = null

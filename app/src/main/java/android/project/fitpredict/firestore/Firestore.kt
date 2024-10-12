@@ -65,7 +65,7 @@ open class Firestore {
     }
 
     fun storeFood(logActivity: LogActivity, food: Food) {
-        val foodRef = db.collection("food").document(food.loggedBy)
+        val foodRef = db.collection("food").document(food.loggedBy + food.loggedTime)
 
         val foodMap = mapOf(
             "foodName" to food.foodName,
@@ -100,18 +100,18 @@ open class Firestore {
 
         foodRef.get()
             .addOnSuccessListener { documents ->
+                val foodList = ArrayList<Food>()
                 if (documents != null && !documents.isEmpty) {
-                    val foodList = ArrayList<Food>()
-
                     for (document in documents) {
                         val foodItem = document.toObject(Food::class.java)
                         foodList.add(foodItem)
                     }
 
-                    mainActivity.foodRetrievedSuccessfully(foodList)
                 } else {
                     Log.d(TAG, "No food logs found for user $uid on $date")
                 }
+
+                mainActivity.foodRetrievedSuccessfully(foodList)
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Error retrieving food logs", e)

@@ -11,6 +11,7 @@ import android.project.fitpredict.databinding.ActivityMainBinding
 import android.project.fitpredict.firestore.Firestore
 import android.project.fitpredict.models.Food
 import android.project.fitpredict.models.User
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -61,15 +62,17 @@ class MainActivity : BaseActivity() {
 
         loadFoodData()
 
-        checkRVEmpty()
-
         setupUserDetails()
 
         setupCurrentDate()
+
+        checkRVEmpty()
     }
 
     private fun loadFoodData() {
+        displayProgressBar(this@MainActivity)
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        Log.d("loadFoodData", "Retrieving data for date: ${sdf.format(currentDate.time)}")
         Firestore().retrieveFood(this@MainActivity, FirebaseAuth().currentUID(), sdf.format(currentDate.time))
     }
 
@@ -104,7 +107,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkRVEmpty() {
-        if (mFoodRecyclerView.isEmpty()) {
+        if (mFoodList.isEmpty()) {
             binding?.dlMain?.mainContent?.tvEmpty?.visibility = View.VISIBLE
         } else {
             binding?.dlMain?.mainContent?.tvEmpty?.visibility = View.GONE
@@ -160,9 +163,11 @@ class MainActivity : BaseActivity() {
     }
 
     fun foodRetrievedSuccessfully(foodList: ArrayList<Food>) {
+        hideProgressBar()
         mFoodList.clear()
         mFoodList.addAll(foodList)
 
         setupRecyclerView()
+        checkRVEmpty()
     }
 }

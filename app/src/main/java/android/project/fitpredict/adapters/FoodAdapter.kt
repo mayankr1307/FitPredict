@@ -1,5 +1,6 @@
 package android.project.fitpredict.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -24,15 +25,18 @@ class FoodAdapter(context: Context, private val foodList: List<Food>) : Recycler
         return FoodViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val currentItem = foodList[position]
+
         holder.foodName.text = currentItem.foodName
         holder.timeStamp.text = currentItem.loggedTime
-        holder.calories.text = currentItem.calories.toString()
-        holder.protein.text = currentItem.protein.toString()
-        holder.fats.text = currentItem.fats.toString()
-        holder.carbs.text = currentItem.carbs.toString()
+        holder.calories.text = "Calories: %.2f".format(currentItem.calories)
+        holder.protein.text = "Protein: %.2f".format(currentItem.protein)
+        holder.fats.text = "Fats: %.2f".format(currentItem.fats)
+        holder.carbs.text = "Carbs: %.2f".format(currentItem.carbs)
     }
+
 
     override fun getItemCount() = foodList.size
 }
