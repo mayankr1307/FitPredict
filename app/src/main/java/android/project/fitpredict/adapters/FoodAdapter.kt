@@ -37,6 +37,5 @@ class FoodAdapter(context: Context, private val foodList: List<Food>) : Recycler
         holder.carbs.text = "Carbs: %.2f".format(currentItem.carbs)
     }
 
-
     override fun getItemCount() = foodList.size
 }

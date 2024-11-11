@@ -43,6 +43,7 @@ open class Firestore {
             }
     }
 
+
     fun currentUserInfo(context: Context, uid: String) {
         val userRef = db.collection("users").document(uid)
         userRef.get()
@@ -93,6 +94,21 @@ open class Firestore {
             }
     }
 
+    fun deleteFoodItem(userId: String, loggedTime: String, callback: (Boolean) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val documentId = userId + loggedTime
+
+        db.collection("food").document(documentId)
+            .delete()
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
+
+
     fun retrieveFood(mainActivity: MainActivity, uid: String, date: String) {
         val foodRef = db.collection("food")
             .whereEqualTo("loggedBy", uid)
@@ -116,6 +132,7 @@ open class Firestore {
             .addOnFailureListener { e ->
                 Log.e(TAG, "Error retrieving food logs", e)
                 Toast.makeText(mainActivity, "Failed to retrieve food logs. Please try again.", Toast.LENGTH_SHORT).show()
+                mainActivity.foodRetrievedFailure()
             }
     }
 

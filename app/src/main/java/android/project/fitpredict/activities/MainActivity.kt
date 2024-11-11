@@ -21,6 +21,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.core.view.isEmpty
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -98,6 +99,34 @@ class MainActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mFoodAdapter
         }
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val foodItem = mFoodList[position]
+
+                Firestore().deleteFoodItem(foodItem.loggedBy, foodItem.loggedTime) { success ->
+                    if (success) {
+                        mFoodList.removeAt(position)
+                        mFoodAdapter.notifyItemRemoved(position)
+                        checkRVEmpty()
+                        Toast.makeText(this@MainActivity, "Item deleted successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        mFoodAdapter.notifyItemChanged(position)
+                        Toast.makeText(this@MainActivity, "Failed to delete item", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(mFoodRecyclerView)
     }
 
     private fun changeDate(days: Int) {
@@ -169,5 +198,9 @@ class MainActivity : BaseActivity() {
 
         setupRecyclerView()
         checkRVEmpty()
+    }
+
+    fun foodRetrievedFailure() {
+        hideProgressBar()
     }
 }
