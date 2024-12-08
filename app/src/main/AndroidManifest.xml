@@ -13,6 +13,12 @@
         android:theme="@style/Theme.FitPredict"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AnalysisActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.LogActivity"
             android:exported="false" />
         <activity

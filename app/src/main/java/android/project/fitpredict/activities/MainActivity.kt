@@ -59,6 +59,10 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this@MainActivity, SearchActivity::class.java))
         }
 
+        binding?.dlMain?.tbMain?.ivAnalysis?.setOnClickListener {
+            startActivity(Intent(this@MainActivity, AnalysisActivity::class.java))
+        }
+
         setupDateChangeListeners()
 
         loadFoodData()

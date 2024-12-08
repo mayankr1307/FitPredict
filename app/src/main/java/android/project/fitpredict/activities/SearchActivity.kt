@@ -22,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
 
     private var binding: ActivitySearchBinding? = null
     private val foodList = mutableListOf<FoodItem>()
@@ -47,6 +47,8 @@ class SearchActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             }
+
+            displayProgressBar(this@SearchActivity)
 
             val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
@@ -83,6 +85,7 @@ class SearchActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("SearchActivity", "Exception: ${e.message}")
             }
+            hideProgressBar()
         }
     }
 
